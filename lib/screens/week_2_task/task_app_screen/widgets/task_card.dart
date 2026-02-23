@@ -3,7 +3,7 @@ import 'package:dhc_assignment/utils/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class TaskCard extends StatelessWidget {
-  final Taskodel? taskodel;
+  final TaskModel? taskodel;
   final void Function()? onDelete;
   const TaskCard({super.key, this.taskodel, this.onDelete});
 

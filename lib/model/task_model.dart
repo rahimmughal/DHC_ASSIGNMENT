@@ -1,17 +1,25 @@
-class Taskodel {
-  final String id;
-  final String title;
-  final String description;
+class TaskModel {
+  String id;
+  String title;
+  String description;
   bool isCompleted;
 
-  Taskodel({
+  TaskModel({
     required this.id,
     required this.title,
     required this.description,
-    this.isCompleted = false
+    required this.isCompleted,
   });
 
-  // Convert object to Map
+  factory TaskModel.fromJson(Map<String, dynamic> json) {
+    return TaskModel(
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      isCompleted: json['isCompleted'],
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -19,15 +27,5 @@ class Taskodel {
       'description': description,
       'isCompleted': isCompleted,
     };
-  }
-
-  // Convert Map to object
-  factory Taskodel.fromJson(Map<String, dynamic> json) {
-    return Taskodel(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      isCompleted: json['isCompleted'],
-    );
   }
 }

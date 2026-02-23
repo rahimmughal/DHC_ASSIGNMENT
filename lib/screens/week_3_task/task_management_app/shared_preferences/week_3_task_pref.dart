@@ -1,32 +1,25 @@
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dhc_assignment/model/task_model.dart';
-import 'package:dhc_assignment/utils/shared_pref_config.dart';
 
 class Week3TaskPref {
-  static const taskKey = "week_3_tasks";
-  Future<void> saveTasks(List<Taskodel> taskList) async {
-    final prefs = SharedPrefConfig.pref;
+  static const String key = "week3_tasks";
 
-    if (prefs == null) return;
-
-    List<String> taskJsonList =
-        taskList.map((task) => jsonEncode(task.toJson())).toList();
-
-    await prefs.setStringList(taskKey, taskJsonList);
+  Future<void> saveTasks(List<TaskModel> tasks) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> taskList =
+        tasks.map((task) => jsonEncode(task.toJson())).toList();
+    await prefs.setStringList(key, taskList);
   }
 
-  Future<List<Taskodel>> loadTasks() async {
-    final prefs = SharedPrefConfig.pref;
+  Future<List<TaskModel>> loadTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String>? data = prefs.getStringList(key);
 
-    if (prefs == null) return [];
+    if (data == null) return [];
 
-    List<String>? taskJsonList = prefs.getStringList(taskKey);
-
-    if (taskJsonList == null) return [];
-
-    return taskJsonList
-        .map((taskString) =>
-            Taskodel.fromJson(jsonDecode(taskString)))
+    return data
+        .map((task) => TaskModel.fromJson(jsonDecode(task)))
         .toList();
   }
 }

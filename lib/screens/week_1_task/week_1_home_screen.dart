@@ -1,4 +1,3 @@
-import 'package:dhc_assignment/screens/home_screen.dart';
 import 'package:dhc_assignment/screens/week_1_task/login_screen.dart';
 import 'package:dhc_assignment/utils/app_colors/app_colors.dart';
 import 'package:dhc_assignment/widgets/app_bar.dart';
@@ -30,7 +29,7 @@ class Week1HomeScreen extends StatelessWidget {
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: AppColors.kWhite, 
-                  ),
+                  )
                 ),
               ),
               SizedBox(height: 20,), 

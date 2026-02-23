@@ -1,9 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:dhc_assignment/model/task_model.dart';
-import 'package:dhc_assignment/screens/week_3_task/task_management_app/shared_preferences/week_3_task_pref.dart';
-import 'package:dhc_assignment/screens/week_3_task/task_management_app/widgets/week_3_task_card.dart';
 import 'package:dhc_assignment/utils/app_colors/app_colors.dart';
 import 'package:dhc_assignment/widgets/app_bar.dart';
-import 'package:flutter/material.dart';
+import 'shared_preferences/week_3_task_pref.dart';
+import 'widgets/week_3_task_card.dart';
 
 class Week3TaskHomeScreen extends StatefulWidget {
   const Week3TaskHomeScreen({super.key});
@@ -12,107 +12,69 @@ class Week3TaskHomeScreen extends StatefulWidget {
   State<Week3TaskHomeScreen> createState() => _Week3TaskHomeScreenState();
 }
 
-class _Week3TaskHomeScreenState extends State<Week3TaskHomeScreen> with WidgetsBindingObserver{
-
-  List<Taskodel> taskList = [];
+class _Week3TaskHomeScreenState extends State<Week3TaskHomeScreen> {
+  List<TaskModel> taskList = [];
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     loadTasks();
   }
 
-  Future<void> loadTasks() async {
+  void loadTasks() async {
     taskList = await Week3TaskPref().loadTasks();
     setState(() {});
   }
 
-  Future<void> saveTasks() async {
-    await Week3TaskPref().saveTasks(taskList);
+  void saveTasks() {
+    Week3TaskPref().saveTasks(taskList);
   }
 
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+  void addTask(String title, String desc) {
+    setState(() {
+      taskList.add(TaskModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        title: title,
+        description: desc,
+        isCompleted: false,
+      ));
+    });
     saveTasks();
-    super.dispose();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.detached) {
-      saveTasks();
-    }
-  }
+  void showAddDialog() {
+    TextEditingController title = TextEditingController();
+    TextEditingController desc = TextEditingController();
 
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Add Task"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(controller: title, decoration: const InputDecoration(labelText: "Title")),
+            TextField(controller: desc, decoration: const InputDecoration(labelText: "Description")),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              addTask(title.text, desc.text);
+              Navigator.pop(context);
+            },
+            child: const Text("Add"),
+          )
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: CustomAppBar(title: "Week 3 Task App", 
-      onBackPressed: () => Navigator.pop(context),
-      ),
-      body: Column(
-        children: [
-          SizedBox(height: 10),
-          Expanded(
-            child: Container( 
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              child: (taskList.isEmpty) ? Center(
-                child: Text("No tasks available", style: TextStyle(color: AppColors.kWhite),),
-              ) : ListView.separated(
-                itemCount: taskList.length,
-                itemBuilder: (context, index) {
-                  final task = taskList[index];
-                  return Week3TaskCard(
-                    taskodel: task, 
-                    onChanged: (value){
-                      setState(() {
-                        taskList[index].isCompleted = value ?? false;
-                      });
-                    },
-                    onDelete: () {
-                      showDialog(
-                        context: context, 
-                        builder: (context) {
-                          return AlertDialog(
-                            backgroundColor: AppColors.lightBlackBackgroundColor,
-                            title: Text("Delete Task", style: TextStyle(color: AppColors.kWhite),),
-                            content: Text("Are you sure you want to delete this task?", style: TextStyle(color: AppColors.kWhite),),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    taskList.removeAt(index);
-                                  });
-                                  Navigator.pop(context);
-                                }, 
-                                child: Text("Delete", style: TextStyle(color: AppColors.kRed),)
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                }, 
-                                child: Text("Cancel", style: TextStyle(color: AppColors.kWhite),)
-                              )
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
-                separatorBuilder: (context, index) => SizedBox(height: 8),
-              ),
-            ),
-          ),
-
-        ],
-      ),
+      appBar: const CustomAppBar(title: "Task Manager"),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.kWhite,
         onPressed: () {
@@ -171,13 +133,8 @@ class _Week3TaskHomeScreenState extends State<Week3TaskHomeScreen> with WidgetsB
                         return;
                       }
                       setState(() {
-                         taskList.add(Taskodel(
-                          title: title,
-                          description: description,
-                          id: DateTime.now().millisecondsSinceEpoch.toString(),
-                          isCompleted: false,
-                        ));
-                        });
+                        taskList.add(TaskModel(title: title, description: description, id: taskList.length.toString(), isCompleted: false));
+                      });
                       Navigator.pop(context);
                     }, 
                     child: Text("Add", style: TextStyle(color: AppColors.kWhite),)
@@ -188,6 +145,30 @@ class _Week3TaskHomeScreenState extends State<Week3TaskHomeScreen> with WidgetsB
           );
         },
         child: Icon(Icons.add),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: ListView.builder(
+          itemCount: taskList.length,
+          itemBuilder: (context, index) {
+            final task = taskList[index];
+            return Week3TaskCard(
+              task: task,
+              onChanged: (value) {
+                setState(() {
+                  task.isCompleted = value ?? false;
+                });
+                saveTasks();
+              },
+              onDelete: () {
+                setState(() {
+                  taskList.removeAt(index);
+                });
+                saveTasks();
+              },
+            );
+          },
+        ),
       ),
     );
   }

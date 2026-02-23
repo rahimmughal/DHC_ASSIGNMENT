@@ -1,33 +1,46 @@
+import 'package:flutter/material.dart';
 import 'package:dhc_assignment/model/task_model.dart';
 import 'package:dhc_assignment/utils/app_colors/app_colors.dart';
-import 'package:flutter/material.dart';
 
 class Week3TaskCard extends StatelessWidget {
-  final Taskodel? taskodel;
-  final void Function()? onDelete;
-  final void Function(bool?)? onChanged;
-  const Week3TaskCard({super.key, this.taskodel, this.onDelete, this.onChanged});
+  final TaskModel task;
+  final Function(bool?) onChanged;
+  final VoidCallback onDelete;
+
+  const Week3TaskCard({
+    super.key,
+    required this.task,
+    required this.onChanged,
+    required this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      visualDensity: VisualDensity.comfortable,
-      tileColor: AppColors.lightBlackBackgroundColor,
-      title: Text(
-        taskodel?.title ?? "N/A",
-        style: TextStyle(color: AppColors.kWhite),
+    return Card(
+      color: AppColors.kBlack,
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
       ),
-      subtitle: Text(
-        taskodel?.description ?? "N/A",
-        style: TextStyle(color: AppColors.kDarkGrey),
+      child: ListTile(
+        leading: Checkbox(
+          value: task.isCompleted,
+          activeColor: AppColors.backgroundColor,
+          onChanged: onChanged,
+        ),
+        title: Text(
+          task.title,
+          style: const TextStyle(color: Colors.white),
+        ),
+        subtitle: Text(
+          task.description,
+          style: const TextStyle(color: Colors.grey),
+        ),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete, color: Colors.red),
+          onPressed: onDelete,
+        ),
       ),
-      trailing: InkWell(
-        onTap: onDelete,
-        child: Icon(Icons.delete, color: AppColors.kRed),
-      ),
-      leading:  Checkbox(
-            activeColor: AppColors.kGreen,
-            value: taskodel?.isCompleted ?? false, onChanged: onChanged),
     );
   }
 }

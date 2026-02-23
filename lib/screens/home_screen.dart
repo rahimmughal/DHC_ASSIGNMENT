@@ -1,6 +1,5 @@
 import 'package:dhc_assignment/data/week_task_data.dart';
 import 'package:dhc_assignment/utils/app_colors/app_colors.dart';
-import 'package:dhc_assignment/widgets/week_task_card.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/app_bar.dart';

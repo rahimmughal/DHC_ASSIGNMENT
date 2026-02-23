@@ -4,7 +4,7 @@ import 'package:dhc_assignment/utils/shared_pref_config.dart';
 
 class Week2TaskPref {
   static const taskKey = "week_2_tasks";
-  Future<void> saveTasks(List<Taskodel> taskList) async {
+  Future<void> saveTasks(List<TaskModel> taskList) async {
     final prefs = SharedPrefConfig.pref;
 
     if (prefs == null) return;
@@ -15,7 +15,7 @@ class Week2TaskPref {
     await prefs.setStringList(taskKey, taskJsonList);
   }
 
-  Future<List<Taskodel>> loadTasks() async {
+  Future<List<TaskModel>> loadTasks() async {
     final prefs = SharedPrefConfig.pref;
 
     if (prefs == null) return [];
@@ -26,7 +26,7 @@ class Week2TaskPref {
 
     return taskJsonList
         .map((taskString) =>
-            Taskodel.fromJson(jsonDecode(taskString)))
+            TaskModel.fromJson(jsonDecode(taskString)))
         .toList();
   }
 }

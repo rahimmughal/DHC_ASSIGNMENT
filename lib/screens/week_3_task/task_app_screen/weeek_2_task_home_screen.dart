@@ -14,7 +14,7 @@ class Week2TaskHomeScreen extends StatefulWidget {
 
 class _Week2TaskHomeScreenState extends State<Week2TaskHomeScreen> with WidgetsBindingObserver{
 
-  List<Taskodel> taskList = [];
+  List<TaskModel> taskList = [];
 
   @override
   void initState() {
@@ -166,7 +166,7 @@ class _Week2TaskHomeScreenState extends State<Week2TaskHomeScreen> with WidgetsB
                         return;
                       }
                       setState(() {
-                        taskList.add(Taskodel(title: title, description: description, id: taskList.length.toString(), isCompleted: false));
+                        taskList.add(TaskModel(title: title, description: description, id: taskList.length.toString(), isCompleted: false));
                       });
                       Navigator.pop(context);
                     }, 
