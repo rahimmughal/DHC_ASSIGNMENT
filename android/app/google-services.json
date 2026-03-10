@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "477104588795",
+    "project_id": "dhc-assignment",
+    "storage_bucket": "dhc-assignment.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:477104588795:android:6bf095c2f7d85696d5ad5e",
+        "android_client_info": {
+          "package_name": "com.example.dhc_assignment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdgv0eHAKUJR1CgidaXG61jCkYmaoX1Sk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

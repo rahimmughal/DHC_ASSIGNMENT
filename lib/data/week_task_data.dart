@@ -1,9 +1,14 @@
 import 'package:dhc_assignment/screens/week_1_task/login_screen.dart';
 import 'package:dhc_assignment/screens/week_2_task/week_2_main_screen.dart';
 import 'package:dhc_assignment/screens/week_3_task/task_management_app/weeek_3_task_home_screen.dart';
+import 'package:dhc_assignment/screens/week_5_task/week_5_login_screen.dart';
 import 'package:dhc_assignment/utils/constants.dart';
 import 'package:dhc_assignment/widgets/week_task_card.dart';
 import 'package:flutter/material.dart';
+
+
+import '../screens/week_4_task/week_4_task_home_screen.dart';
+import '../screens/week_6_task/week_6_home_screen.dart';
 
 class WeekTaskData {
   static List<Widget> weekTaskList = [
@@ -43,6 +48,45 @@ class WeekTaskData {
           Navigator.push(
           Constants.globalNavigatorKey.currentContext!,
           MaterialPageRoute(builder: (context) => Week3TaskHomeScreen()),
+        );
+        }
+    },
+    ),
+    WeekTaskCard(
+      title: "Week 4 Assignment",
+      description:
+          "In Week 4, I developed a complete User Management System by combining the core Flutter concepts learned throughout the internship. The application features a home screen that displays a list of users, along with the ability to add new users, delete existing ones, and update user information. I implemented local data persistence using SharedPreferences to ensure that user data is saved and retained even after the app is closed or restarted. The app was thoroughly tested to ensure smooth navigation and reliable data storage, and any issues were resolved using Flutter’s built-in debugging tools. To improve the user experience, I enhanced the interface by adding a custom AppBar with a title and an action button for adding users, along with relevant icons from the Flutter Icons library for better visual appeal. The final project is fully functional, with the source code uploaded to a GitHub repository including setup instructions, along with a short demonstration video of the application.",
+    onTap: () {
+        if(Constants.globalNavigatorKey.currentContext?.mounted?? false){
+          Navigator.push(
+          Constants.globalNavigatorKey.currentContext!,
+          MaterialPageRoute(builder: (context) => Week4TaskHomeScreen()),
+        );
+        }
+    },
+    ),
+    WeekTaskCard(
+      title: "Week 5 Assignment",
+      description:
+          "In Week 5, I focused on implementing user authentication and authorization features in the application. This involved creating a secure login screen, integrating Firebase Authentication for user sign-in and sign-up, and implementing role-based access control to restrict certain functionalities based on user roles. I also worked on improving the overall user experience by adding loading indicators during authentication processes and providing clear feedback messages for successful or failed login attempts. The application was tested thoroughly to ensure that all security measures were in place and functioning correctly.",
+    onTap: () {
+        if(Constants.globalNavigatorKey.currentContext?.mounted?? false){
+          Navigator.push(
+          Constants.globalNavigatorKey.currentContext!,
+          MaterialPageRoute(builder: (context) => Week5LoginScreen()),
+        );
+        }
+    },
+    ),
+    WeekTaskCard(
+      title: "Week 6 Assignment",
+      description:
+          "In Week 6, I focused on implementing a task management system using Flutter. This involved creating a user-friendly interface for adding, updating, and deleting tasks, as well as integrating local storage solutions to persist task data across app launches. I utilized the Provider package for state management, ensuring that the UI remained responsive and up-to-date with the underlying data model. Additionally, I implemented basic authentication features to secure user data and prevent unauthorized access.",
+    onTap: () {
+        if(Constants.globalNavigatorKey.currentContext?.mounted?? false){
+          Navigator.push(
+          Constants.globalNavigatorKey.currentContext!,
+          MaterialPageRoute(builder: (context) => Week6HomeScreen()),
         );
         }
     },
